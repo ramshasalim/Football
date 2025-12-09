@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blaugrana</title>
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap");
+
+      body {
+        font-family: "Montserrat", sans-serif;
+        background: linear-gradient(135deg, #0a043c, #6a040f);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        color: white;
+      }
+
+      #container {
+        width: 90%;
+        max-width: 420px;
+        max-height: 90vh; /* Limit container height to viewport */
+        overflow-y: auto; /* Scroll if content is too tall */
+        background: rgba(0, 0, 0, 0.4);
+        padding: 20px 15px; /* Slightly smaller padding to fit better */
+        border-radius: 18px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+        text-align: center;
+        border: 2px solid #a50044;
+      }
+
+      h2 {
+        font-weight: 700;
+        color: #ffcf00;
+        text-shadow: 0 0 5px #ffcf00;
+      }
+
+      button {
+        width: 100%;
+        padding: 15px;
+        margin: 12px 0;
+        font-size: 18px;
+        border: none;
+        border-radius: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.3s;
+        background: linear-gradient(90deg, #a50044, #004d98);
+        color: white;
+      }
+
+      button:hover {
+        transform: scale(1.05);
+        background: linear-gradient(90deg, #004d98, #a50044);
+      }
+
+      .option {
+        background: #01284e;
+      }
+
+      .option:hover {
+        background: #012a56;
+      }
+
+      img {
+        width: 170px;
+        margin: 15px;
+        border-radius: 10px;
+        border: 2px solid #ffcf00;
+        background: #fff;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="container"></div>
+
+    <script>
+      // ---------------- HOME PAGE ----------------
+      function loadHomePage() {
+        document.getElementById("container").innerHTML = `
+        <h2>⚽ BLAUGRANA</h2>
+        <button onclick="startGuessGame()">Guess The Player</button>
+        <button onclick="startQuiz()">Play Quiz</button>
+    `;
+      }
+
+      // ---------------- GUESS THE PLAYER DATA ----------------
+      const playerData = [
+        {
+          img: "pixel/messi.png",
+          correct: "Lionel Messi",
+          options: ["Neymar", "Lionel Messi", "Mbappe", "Ronaldo"],
+        },
+        {
+          img: "pixel/iniesta.png",
+          correct: "Iniesta",
+          options: ["Busquets", "Iniesta", "Xavi Hernandez", "Puyol"],
+        },
+        {
+          img: "pixel/xavi.png",
+          correct: "xavi Hernandez",
+          options: ["Modric", "Iniesta", "Silva", "xavi Hernandez"],
+        },
+        {
+          img: "pixel/Shaurya.png",
+          correct: "Shaurya Pratap Singh",
+          options: [
+            "Rafa Marquez",
+            "Gareth Bale",
+            "Shaurya Pratap Singh",
+            "Messi",
+          ],
+        },
+        {
+          img: "pixel/pirlo.png",
+          correct: "Andrea Pirlo",
+          options: ["Puyol", "Lionel Messi", "Mbappe", "Andrea Pirlo"],
+        },
+        {
+          img: "pixel/Rafa Marquez.png",
+          correct: "Rafa Marquez",
+          options: ["Rafa Marquez", "Gareth Bale", "Mbappe", "Puyol"],
+        },
+        {
+          img: "pixel/Mbappe.png",
+          correct: "Mbappe",
+          options: ["Puyol", "Lionel Messi", "Mbappe", "Ronaldo"],
+        },
+        {
+          img: "pixel/ronaldo.png",
+          correct: "Cristiano Ronaldo",
+          options: [
+            "Cristiano Ronaldo",
+            "Yaya Toure",
+            "Mbappe",
+            "Andrea Pirlo",
+          ],
+        },
+      ];
+
+      let guessIndex = 0;
+      let guessScore = 0;
+
+      // ---------------- LOAD GUESS GAME ----------------
+      function startGuessGame() {
+        guessIndex = 0;
+        guessScore = 0;
+        loadGuessQuestion();
+      }
+
+      function loadGuessQuestion() {
+        if (guessIndex >= playerData.length) {
+          return showScore(guessScore, playerData.length);
+        }
+
+        let p = playerData[guessIndex];
+
+        document.getElementById("container").innerHTML = `
+        <h2>Guess The Player</h2>
+        <img src="${p.img}">
+        ${p.options
+          .map(
+            (opt) => `
+            <button class="option" onclick="checkGuess('${opt}')">${opt}</button>
+        `
+          )
+          .join("")}
+    `;
+      }
+
+      function checkGuess(selected) {
+        if (selected === playerData[guessIndex].correct) {
+          guessScore++;
+        }
+        guessIndex++;
+        loadGuessQuestion();
+      }
+
+      // ---------------- QUIZ MODE DATA ----------------
+      const quizQuestions = [
+        {
+          q: "Which club is known as 'Blaugrana'?",
+          a: ["Real Madrid", "Barcelona", "Atletico Madrid", "PSG"],
+          correct: "Barcelona",
+        },
+        {
+          q: "Who wore number 10 before Messi?",
+          a: ["Ronaldinho", "Rivaldo", "Maradona", "Eto'o"],
+          correct: "Ronaldinho",
+        },
+        {
+          q: "Which stadium is Barcelona's home ground?",
+          a: [
+            "Santiago Bernabéu",
+            "Camp Nou",
+            "Signal Iduna Park",
+            "Old Trafford",
+          ],
+          correct: "Camp Nou",
+        },
+        {
+          q: "Who is Barça's all-time top scorer?",
+          a: ["Messi", "Coutinho", "Suárez", "Neymar"],
+          correct: "Messi",
+        },
+        {
+          q: "Which manager won the sextuple with Barcelona in 2009?",
+          a: ["Pep Guardiola", "Luis Enrique", "Ronald Koeman", "Johan Cruyff"],
+          correct: "Pep Guardiola",
+        },
+        {
+          q: "What are Barcelona's traditional colors?",
+          a: ["Red & Blue", "White & Blue", "Yellow & Red", "Green & White"],
+          correct: "Red & Blue",
+        },
+        {
+          q: "Which player is known as 'The Atomic Flea'?",
+          a: ["Messi", "Iniesta", "Suárez", "Piqué"],
+          correct: "Messi",
+        },
+        {
+          q: "Who scored the winning goal in the 2011 UEFA Champions League final?",
+          a: ["Messi", "Pedro", "Iniesta", "Xavi"],
+          correct: "Pedro",
+        },
+        {
+          q: "Which player was nicknamed 'The Little Magician'?",
+          a: ["Iniesta", "Neymar", "Messi", "Busquets"],
+          correct: "Iniesta",
+        },
+        {
+          q: "Which of these players is NOT from Spain?",
+          a: ["Xavi", "Iniesta", "Messi", "Piqué"],
+          correct: "Messi",
+        },
+      ];
+
+      let quizIndex = 0;
+      let quizScore = 0;
+
+      // ---------------- LOAD QUIZ ----------------
+      function startQuiz() {
+        quizIndex = 0;
+        quizScore = 0;
+        loadQuizQuestion();
+      }
+
+      function loadQuizQuestion() {
+        if (quizIndex >= quizQuestions.length) {
+          return showScore(quizScore, quizQuestions.length);
+        }
+
+        let q = quizQuestions[quizIndex];
+
+        document.getElementById("container").innerHTML = `
+        <h2>Barça Quiz</h2>
+        <p><b>${q.q}</b></p>
+        ${q.a
+          .map(
+            (ans) => `
+            <button class="option" onclick="checkQuiz('${ans}')">${ans}</button>
+        `
+          )
+          .join("")}
+    `;
+      }
+
+      function checkQuiz(selected) {
+        if (selected === quizQuestions[quizIndex].correct) {
+          quizScore++;
+        }
+        quizIndex++;
+        loadQuizQuestion();
+      }
+
+      // ---------------- SCORE PAGE ----------------
+      function showScore(correct, total) {
+        document.getElementById("container").innerHTML = `
+        <h2>🎉 Game Over!</h2>
+        <p>Your Score: <b>${correct}/${total}</b></p>
+        <button onclick="loadHomePage()">Back to Home</button>
+    `;
+      }
+
+      loadHomePage();
+    </script>
+  </body>
+</html>
